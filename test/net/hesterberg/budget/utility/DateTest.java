@@ -1,17 +1,18 @@
-package net.hesterberg.budget;
+package net.hesterberg.budget.utility;
 import net.hesterberg.budget.Date;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
 import java.awt.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class DateTest {
+public class DateTest {
 
     /**
      * Test the constructor method and the helper data validation method
      */
     @Test
-    void testDate() {
+    public void testDate() {
         Date date;
 
         //test lower fail bound for day input
@@ -58,7 +59,7 @@ class DateTest {
      * Test the getter method for day
      */
     @Test
-    void getDay() {
+    public void getDay() {
         Date date;
 
         date = new Date(20, 1, 2020);
@@ -69,7 +70,7 @@ class DateTest {
      * Test the getter method for month
      */
     @Test
-    void getMonth() {
+    public void getMonth() {
         Date date;
 
         date = new Date(20, 1, 2020);
@@ -80,7 +81,7 @@ class DateTest {
      * Test the getter method for year
      */
     @Test
-    void getYear() {
+    public void getYear() {
         Date date;
 
         date = new Date(20, 1, 2020);
@@ -91,7 +92,7 @@ class DateTest {
      * Test the toString method
      */
     @Test
-    void testToString() {
+    public void testToString() {
         //Test each month abbreviation
         Date date = new Date(20, 1, 2020);
         assertEquals("20-Jan-2020", date.toString());
@@ -134,7 +135,7 @@ class DateTest {
      * Test the comparison method
      */
     @Test
-    void compareTo() {
+    public void compareTo() {
         Date date1;
         Date date2;
 
@@ -185,7 +186,7 @@ class DateTest {
      * Test the equals method
      */
     @Test
-    void equals() {
+    public void equals() {
         Date date1;
         Date date2;
 
@@ -226,7 +227,7 @@ class DateTest {
      * Test the hashCode method
      */
     @Test
-    void hashCodeTest() {
+    public void hashCodeTest() {
         Date date1;
         Date date2;
 

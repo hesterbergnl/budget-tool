@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04a2cf4f-701b-459b-bbf8-e8e554d1400a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/ui/BudgetGUI.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/ui/BudgetGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/transaction/Purchase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/transaction/ReoccurringPurchase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/net/hesterberg/budget/transaction/PurchaseTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/budget-tool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/budget-tool.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/budget/Budget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/budget/Budget.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/transaction/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/transaction/Transaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/ui/BudgetGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/ui/BudgetGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/net/hesterberg/budget/utility/DateTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/net/hesterberg/budget/utility/DateTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +21,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="JUnit4 Test Class" />
       </list>
     </option>
   </component>
@@ -40,17 +46,67 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="settings.editor.selected.configurable" value="project.propGUI" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="net.hesterberg.budget.transaction" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/test/net/hesterberg/budget/utility" />
       <recent name="$PROJECT_DIR$/src/net/hesterberg/budget/transaction" />
       <recent name="$PROJECT_DIR$/src/net/hesterberg/budget/utility" />
       <recent name="$PROJECT_DIR$/src/net/hesterberg/budget/budget" />
     </key>
+  </component>
+  <component name="RunManager" selected="JUnit.PurchaseTest">
+    <configuration name="DateTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="budget-tool" />
+      <option name="PACKAGE_NAME" value="net.hesterberg.budget.utility" />
+      <option name="MAIN_CLASS_NAME" value="net.hesterberg.budget.utility.DateTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PurchaseTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="budget-tool" />
+      <option name="PACKAGE_NAME" value="net.hesterberg.budget.transaction" />
+      <option name="MAIN_CLASS_NAME" value="net.hesterberg.budget.transaction.PurchaseTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="PACKAGE_NAME" value="net.hesterberg.budget.utility" />
+      <option name="MAIN_CLASS_NAME" value="net.hesterberg.budget.utility.DateTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.PurchaseTest" />
+      <item itemvalue="JUnit.DateTest" />
+    </list>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -75,16 +131,72 @@
       <option name="presentableId" value="Default" />
       <updated>1588102455602</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added basic gui from designer">
+      <created>1588107630023</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1588107630023</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added basic gui from designer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added basic gui from designer" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="304" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588102845737">
+    <state x="304" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588272548955">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="304" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1588102845737" />
+    <state x="304" y="198" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1588272548955" />
+    <state x="653" y="227" key="#com.intellij.ide.util.MemberChooser" timestamp="1588187528530">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="653" y="227" key="#com.intellij.ide.util.MemberChooser/0.23.1680.1027@0.23.1680.1027" timestamp="1588187528530" />
+    <state x="577" y="319" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1588272294131">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="577" y="319" key="#com.intellij.ide.util.PackageChooserDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1588272294131" />
+    <state x="577" y="327" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1588272547624">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="577" y="327" key="#com.intellij.ide.util.TreeClassChooserDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1588272547624" />
+    <state x="464" y="139" key="CommitChangelistDialog2" timestamp="1588107629906">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="464" y="139" key="CommitChangelistDialog2/0.23.1680.1027@0.23.1680.1027" timestamp="1588107629906" />
+    <state width="1043" height="280" key="GridCell.Tab.0.bottom" timestamp="1588274448379">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1043" height="280" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1588274448379" />
+    <state width="1043" height="280" key="GridCell.Tab.0.center" timestamp="1588274448377">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1043" height="280" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1588274448377" />
+    <state width="1043" height="280" key="GridCell.Tab.0.left" timestamp="1588274448377">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1043" height="280" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1588274448377" />
+    <state width="1043" height="280" key="GridCell.Tab.0.right" timestamp="1588274448378">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1043" height="280" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1588274448378" />
     <state x="341" y="175" key="SettingsEditor" timestamp="1588107193788">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="341" y="175" key="SettingsEditor/0.23.1680.1027@0.23.1680.1027" timestamp="1588107193788" />
+    <state x="440" y="276" key="Vcs.Push.Dialog.v2" timestamp="1588107638273">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="440" y="276" key="Vcs.Push.Dialog.v2/0.23.1680.1027@0.23.1680.1027" timestamp="1588107638273" />
+    <state x="544" y="437" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1588107957568">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="544" y="437" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.23.1680.1027@0.23.1680.1027" timestamp="1588107957568" />
+    <state x="576" y="270" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1588272312179">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="576" y="270" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1588272312179" />
   </component>
 </project>

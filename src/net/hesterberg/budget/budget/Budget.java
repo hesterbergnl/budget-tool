@@ -1,5 +1,8 @@
-package net.hesterberg.budget;
+package net.hesterberg.budget.budget;
 
+import net.hesterberg.budget.transaction.Transaction;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

@@ -1,4 +1,6 @@
-package net.hesterberg.budget;
+package net.hesterberg.budget.transaction;
+
+import net.hesterberg.budget.Date;
 
 /**
  * Interface used to define the required methods of a purchase.
