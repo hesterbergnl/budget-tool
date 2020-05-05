@@ -1,9 +1,11 @@
 package net.hesterberg.budget.budget;
 
 import net.hesterberg.budget.transaction.Transaction;
+import net.hesterberg.budget.utility.CategoryException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Budget class - The main class modelling the budget
@@ -77,5 +79,95 @@ public class Budget {
      */
     public void addBudgetBucket(String bucket, int categoryBudget) {
         this.budget.put(bucket, categoryBudget);
+    }
+
+    /**
+     * Returns the total amount spent in each budget category
+     * Loops through each category and then loops through each list of purchases
+     * May need to store this dynamically in the future for faster lookups
+     *
+     * @return map with category and total budget for that category
+     */
+    public Map<String, Integer> getCategoryTotalSpent() {
+        ArrayList<Transaction> txs;
+        Map<String, Integer> categoryTotals = new HashMap<String, Integer>();
+        Integer total = 0;
+
+        for(Map.Entry<String, ArrayList<Transaction>> entry: purchases.entrySet()) {
+            txs = entry.getValue();
+            total = 0;
+            for(Transaction tx: txs) {
+                total += tx.getPrice();
+            }
+            categoryTotals.put(entry.getKey(), total);
+        }
+
+        return categoryTotals;
+    }
+
+    /**
+     * Adds a new purchase to the purchases map
+     * Throws a Category Exception if the category doesn't currently exist in the budget
+     *
+     * @param purchase - purchase to add to the map
+     * @throws CategoryException if category doesn't exist in the budget
+     */
+    public void addPurchase(Transaction purchase) throws CategoryException {
+        String category = purchase.getCategory();
+
+        Integer categoryTotal = budget.get(category);
+
+        if(categoryTotal == null) {
+            throw new CategoryException(category + " does not currently exist in the budget!");
+        }
+
+        //Retrieve the purchase list from the purchases map
+        ArrayList<Transaction> p = purchases.get(category);
+
+        if(p == null) {
+            p = new ArrayList<Transaction>();
+        }
+        p.add(purchase);
+
+        purchases.put(category, p);
+    }
+
+    /**
+     * Returns the total amount of money spent thus far
+     * Need to update this to be dynamically stored later
+     *
+     * @return the total amount spent
+     */
+    public int getBudgetTotalSpent() {
+        Map<String, Integer> categoryTotals = getCategoryTotalSpent();
+        int total = 0;
+
+        for(Map.Entry<String, Integer> cat: categoryTotals.entrySet()) {
+            total += cat.getValue();
+        }
+
+        return total;
+    }
+
+    /**
+     * Removes a purchase from the purchases list
+     * Returns the description of the purchase that was removed
+     * Returns null if the purchase didn't exist in the purchases list
+     *
+     * @param purchase - purchase that needs to be removed from the list
+     * @return description of the removed purchase
+     */
+    public String removeTransaction(Transaction purchase) {
+        String category = purchase.getCategory();
+        String description = purchase.getDescription();
+        ArrayList<Transaction> txs = purchases.get(category);
+
+        boolean removed = txs.remove(purchase);
+
+        if(removed) {
+            return description;
+        }
+
+        return null;
     }
 }
