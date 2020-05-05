@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04a2cf4f-701b-459b-bbf8-e8e554d1400a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/transaction/Purchase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/transaction/ReoccurringPurchase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/net/hesterberg/budget/transaction/PurchaseTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/budget-tool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/budget-tool.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/budget/Budget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/budget/Budget.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/transaction/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/transaction/Transaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/ui/BudgetGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/ui/BudgetGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/net/hesterberg/budget/utility/DateTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/net/hesterberg/budget/utility/DateTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,8 +96,8 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.PurchaseTest" />
       <item itemvalue="JUnit.DateTest" />
+      <item itemvalue="JUnit.PurchaseTest" />
     </list>
   </component>
   <component name="ServiceViewManager">
@@ -138,7 +130,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588107630023</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added basic gui from designer">
+      <created>1588274501616</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1588274501616</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -162,34 +161,38 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="577" y="327" key="#com.intellij.ide.util.TreeClassChooserDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1588272547624" />
-    <state x="464" y="139" key="CommitChangelistDialog2" timestamp="1588107629906">
+    <state x="464" y="139" key="CommitChangelistDialog2" timestamp="1588274501497">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="464" y="139" key="CommitChangelistDialog2/0.23.1680.1027@0.23.1680.1027" timestamp="1588107629906" />
-    <state width="1043" height="280" key="GridCell.Tab.0.bottom" timestamp="1588274448379">
+    <state x="464" y="139" key="CommitChangelistDialog2/0.23.1680.1027@0.23.1680.1027" timestamp="1588274501497" />
+    <state width="1043" height="280" key="GridCell.Tab.0.bottom" timestamp="1588518513223">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1043" height="280" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1588274448379" />
-    <state width="1043" height="280" key="GridCell.Tab.0.center" timestamp="1588274448377">
+    <state width="1043" height="280" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1588518513223" />
+    <state width="1043" height="280" key="GridCell.Tab.0.center" timestamp="1588518513223">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1043" height="280" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1588274448377" />
-    <state width="1043" height="280" key="GridCell.Tab.0.left" timestamp="1588274448377">
+    <state width="1043" height="280" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1588518513223" />
+    <state width="1043" height="280" key="GridCell.Tab.0.left" timestamp="1588518513222">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1043" height="280" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1588274448377" />
-    <state width="1043" height="280" key="GridCell.Tab.0.right" timestamp="1588274448378">
+    <state width="1043" height="280" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1588518513222" />
+    <state width="1043" height="280" key="GridCell.Tab.0.right" timestamp="1588518513223">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state width="1043" height="280" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1588274448378" />
+    <state width="1043" height="280" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1588518513223" />
     <state x="341" y="175" key="SettingsEditor" timestamp="1588107193788">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="341" y="175" key="SettingsEditor/0.23.1680.1027@0.23.1680.1027" timestamp="1588107193788" />
-    <state x="440" y="276" key="Vcs.Push.Dialog.v2" timestamp="1588107638273">
+    <state x="440" y="276" key="Vcs.Push.Dialog.v2" timestamp="1588274508519">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="440" y="276" key="Vcs.Push.Dialog.v2/0.23.1680.1027@0.23.1680.1027" timestamp="1588107638273" />
+    <state x="440" y="276" key="Vcs.Push.Dialog.v2/0.23.1680.1027@0.23.1680.1027" timestamp="1588274508519" />
+    <state x="517" y="369" key="com.intellij.ide.util.TipDialog" timestamp="1588699203057">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="517" y="369" key="com.intellij.ide.util.TipDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1588699203057" />
     <state x="544" y="437" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1588107957568">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
