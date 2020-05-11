@@ -82,15 +82,24 @@ public class Budget {
     }
 
     /**
+     * Returns the budget hashmap that contains the budget categories and their dollar limit
+     *
+     * @return HashMap containing the budget categories and assigned value
+     */
+    public HashMap<String, Integer> getBudget() {
+        return this.budget;
+    }
+
+    /**
      * Returns the total amount spent in each budget category
      * Loops through each category and then loops through each list of purchases
      * May need to store this dynamically in the future for faster lookups
      *
      * @return map with category and total budget for that category
      */
-    public Map<String, Integer> getCategoryTotalSpent() {
+    public HashMap<String, Integer> getCategoryTotalSpent() {
         ArrayList<Transaction> txs;
-        Map<String, Integer> categoryTotals = new HashMap<String, Integer>();
+        HashMap<String, Integer> categoryTotals = new HashMap<String, Integer>();
         Integer total = 0;
 
         for(Map.Entry<String, ArrayList<Transaction>> entry: purchases.entrySet()) {
