@@ -10,11 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Scanner;
+import java.util.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -43,7 +39,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Nikolai Hesterberg
  */
-public class BudgetGUI extends JFrame {
+public class BudgetGUI extends JFrame implements ActionListener {
     /** Title for top of GUI. */
     private static final String APP_TITLE = "Budget";
     /** Text for the File Menu. */
@@ -86,102 +82,48 @@ public class BudgetGUI extends JFrame {
     JPanel racesPanel;
     /** Race Selector Panel */
     JPanel raceSelector;
-    /** Race list Panel */
-    JPanel raceList;
-    /** RaceDetails panel */
-    JPanel raceDetails;
+    /** Budget list Panel */
+    JPanel budgetList;
+    /** budgetDetails panel */
+    JPanel budgetDetails;
     /** Filter results panel */
     JPanel filterResults;
-    /** Race results panel */
-    JPanel raceResults;
-    /** Add race panel */
-    JPanel addRace;
+    /** Purchase list panel */
+    JPanel purchaseList;
     /** Race backend array */
-    ArrayList backendRaceArray = new ArrayList();;
+    ArrayList backendBudgetArray = new ArrayList();;
     /** Race default list model */
-    DefaultListModel raceModel = new DefaultListModel();
+    DefaultListModel budgetModel = new DefaultListModel();
     /** Race Jlist */
-    JList jListRace = new JList(raceModel);
+    JList jListBudget = new JList(budgetModel);
     /** Races list box */
-    JScrollPane raceScrollList;
+    JScrollPane budgetScrollList;
     /** Add race button */
-    JButton btnAddRace = new JButton("Add Race");
+    JButton btnAddBudget = new JButton("Add Budget");
     /** Remove race button */
-    JButton btnRemoveRace = new JButton("Remove Race");
-    /** Edit race button */
-    JButton btnEditRace = new JButton("Edit Race");
+    JButton btnRemoveBudget = new JButton("Remove Budget");
     /** Unselect race button */
-    JButton btnUnselectRace = new JButton("Unselect Race");
-    /** Age min label */
-    JLabel lblAgeMin = new JLabel("Age Min");
-    /** Age max label */
-    JLabel lblAgeMax = new JLabel("Age Max");
-    /** Pace min label */
-    JLabel lblPaceMin = new JLabel("Pace Min");
-    /** Pace max label */
-    JLabel lblPaceMax = new JLabel("Pace Max");
-    /** Age min text box */
-    JTextField txtAgeMin = new JTextField(10);
-    /** Age max text box */
-    JTextField txtAgeMax = new JTextField(10);
-    /** Pace min text box */
-    JTextField txtPaceMin = new JTextField(10);
-    /** Pace max text box */
-    JTextField txtPaceMax = new JTextField(10);
+    JButton btnUnselectBudget = new JButton("Unselect Budget");
     /** Border for JPanels */
     Border blackline = BorderFactory.createLineBorder(Color.black);
     /** Button Filter */
     JButton btnFilter = new JButton("Filter");
-    /** Race name details label */
-    JLabel lblRaceDetailsName = new JLabel("Race Name");
-    /** Race distance details label */
-    JLabel lblRaceDetailsDistance = new JLabel("Race Distance");
-    /** Race date details label */
-    JLabel lblRaceDetailsDate = new JLabel("Race Date");
-    /** Race location details label */
-    JLabel lblRaceDetailsLocation = new JLabel("Race Location");
-    /** Race name details field */
-    JTextField txtRaceDetailsName = new JTextField(10);
-    /** Race distance details field */
-    JTextField txtRaceDetailsDistance = new JTextField(10);
-    /** Race date details field */
-    JTextField txtRaceDetailsDate = new JTextField(10);
-    /** Race location details label */
-    JTextField txtRaceDetailsLocation = new JTextField(10);
     /** Results backend array */
-    ArrayList backendResultsArray = new ArrayList();;
+    ArrayList backendPurchasesArray = new ArrayList();;
     /** Results default list model */
-    DefaultListModel resultsModel = new DefaultListModel();
+    DefaultListModel purchasesModel = new DefaultListModel();
     /** Results Jlist */
-    JList jListResults = new JList(raceModel);
+    JList jListPurchases = new JList(purchasesModel);
     /** Table for jListResults */
-    JTable tableResults;
+    JTable tablePurchases;
     /** Results list box */
-    JScrollPane resultsScrollList;
+    JScrollPane purchasesScrollList;
     /** Add result button */
-    JButton btnAddResult = new JButton("Add");
-    /** Result name label */
-    JLabel lblResultName = new JLabel("Runner Name");
-    /** Result age label */
-    JLabel lblResultAge = new JLabel("Runner Age");
-    /** Result time label */
-    JLabel lblResultTime = new JLabel("Runner Time");
-    /** Result name field */
-    JTextField txtResultName = new JTextField(10);
-    /** Result age field */
-    JTextField txtResultAge = new JTextField(10);
-    /** Result time field */
-    JTextField txtResultTime = new JTextField(10);
+    JButton btnAddPurchase = new JButton("Add Purchase");
     /** Results table model class instance */
     //private ResultsTableModel resultsTableModel;
     /** Used to check what item is selected in results list */
     ListSelectionModel selectionModel;
-    /** year of date */
-    int year;
-    /** month of date */
-    int month;
-    /** day of date */
-    int day;
     /** Data stored in the table */
     private Object [][] data;
 
@@ -193,7 +135,7 @@ public class BudgetGUI extends JFrame {
         setLocation(50, 50);
         setTitle(APP_TITLE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //setUpMenuBar();
+        setUpMenuBar();
 
         initializeGUI();
 
@@ -237,20 +179,19 @@ public class BudgetGUI extends JFrame {
         racesPanel = new JPanel();
         racesPanel.setLayout(new GridLayout(1, 2));
         topLeft.add(racesPanel);
-        raceDetails = new JPanel();
-        topLeft.add(raceDetails);
+        budgetDetails = new JPanel();
+        topLeft.add(budgetDetails);
 
         raceSelector = new JPanel();
         racesPanel.add(raceSelector);
-        raceList = new JPanel();
-        racesPanel.add(raceList);
+        budgetList = new JPanel();
+        racesPanel.add(budgetList);
 
         // Add buttons to Race selector panel
         raceSelector.setLayout(new GridLayout(4, 1));
-        raceSelector.add(btnAddRace);
-        raceSelector.add(btnRemoveRace);
-        raceSelector.add(btnEditRace);
-        raceSelector.add(btnUnselectRace);
+        raceSelector.add(btnAddBudget);
+        raceSelector.add(btnRemoveBudget);
+        raceSelector.add(btnUnselectBudget);
 
         /**
         // Add the race list
@@ -259,30 +200,6 @@ public class BudgetGUI extends JFrame {
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         raceScrollList.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
         raceList.add(raceScrollList);
-
-        // Add the Filter area
-        bottomLeft.setLayout(new GridLayout(5, 2));
-        bottomLeft.setBorder(blackline);
-        bottomLeft.add(lblAgeMin);
-        bottomLeft.add(txtAgeMin);
-        bottomLeft.add(lblAgeMax);
-        bottomLeft.add(txtAgeMax);
-        bottomLeft.add(lblPaceMin);
-        bottomLeft.add(txtPaceMin);
-        bottomLeft.add(lblPaceMax);
-        bottomLeft.add(txtPaceMax);
-        bottomLeft.add(btnFilter);
-
-        // Add the race details
-        raceDetails.setLayout(new GridLayout(4, 2));
-        raceDetails.add(lblRaceDetailsName);
-        raceDetails.add(txtRaceDetailsName);
-        raceDetails.add(lblRaceDetailsDistance);
-        raceDetails.add(txtRaceDetailsDistance);
-        raceDetails.add(lblRaceDetailsDate);
-        raceDetails.add(txtRaceDetailsDate);
-        raceDetails.add(lblRaceDetailsLocation);
-        raceDetails.add(txtRaceDetailsLocation);
 
         // add the results box and add result button
         topRight.setLayout(new GridLayout(2, 1));
@@ -352,7 +269,6 @@ public class BudgetGUI extends JFrame {
      * Makes the GUI Menu bar that contains options for loading a file containing
      * issues or for quitting the application.
      */
-    /*
     private void setUpMenuBar()
     {
         // Construct Menu items
@@ -378,7 +294,6 @@ public class BudgetGUI extends JFrame {
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
     }
-    */
 
     /**
      * Starts the application
@@ -388,5 +303,10 @@ public class BudgetGUI extends JFrame {
     public static void main(String[] args)
     {
         new BudgetGUI();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+
     }
 }
