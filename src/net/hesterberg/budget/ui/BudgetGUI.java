@@ -1,9 +1,10 @@
 package net.hesterberg.budget.ui;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import net.hesterberg.budget.Date;
+import net.hesterberg.budget.transaction.Purchase;
+import net.hesterberg.budget.transaction.Transaction;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -11,23 +12,9 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.Flow;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -52,50 +39,12 @@ public class BudgetGUI extends JFrame implements ActionListener {
     private static final String SAVE_FILE_TITLE = "Save";
     /** Text for the Quit menu item. */
     private static final String QUIT_TITLE = "Quit";
-    /** Menu bar for the GUI that contains Menus. */
-    private JMenuBar menuBar;
-    /** Menu for the GUI. */
-    private JMenu menu;
-    /** Menu item for creating a new list of Races. */
-    private JMenuItem itemNewFile;
-    /** Menu item for loading a file. */
-    private JMenuItem itemLoadFile;
-    /** Menu item for saving the list to a file. */
-    private JMenuItem itemSaveFile;
-    /** Menu item for quitting the program. */
-    private JMenuItem itemQuit;
     /** Stores the container */
     Container c;
     /** Stores the left JPanel */
     JPanel left;
     /** Stores the right JPanel */
     JPanel right;
-    /** Top left JPanel */
-    JPanel topLeft;
-    /** Bottom left JPanel */
-    JPanel bottomLeft;
-    /** Top right JPanel */
-    JPanel topRight;
-    /** Bottom right JPanel */
-    JPanel bottomRight;
-    /** Races Jpanel */
-    JPanel racesPanel;
-    /** Race Selector Panel */
-    JPanel raceSelector;
-    /** Budget list Panel */
-    JPanel budgetList;
-    /** budgetDetails panel */
-    JPanel budgetDetails;
-    /** Filter results panel */
-    JPanel filterResults;
-    /** Purchase list panel */
-    JPanel purchaseList;
-    /** Race backend array */
-    ArrayList backendBudgetArray = new ArrayList();;
-    /** Race default list model */
-    DefaultListModel budgetModel = new DefaultListModel();
-    /** Race Jlist */
-    JList jListBudget = new JList(budgetModel);
     /** Races list box */
     JScrollPane budgetScrollList;
     /** Add race button */
@@ -108,12 +57,6 @@ public class BudgetGUI extends JFrame implements ActionListener {
     Border blackline = BorderFactory.createLineBorder(Color.black);
     /** Button Filter */
     JButton btnFilter = new JButton("Filter");
-    /** Results backend array */
-    ArrayList backendPurchasesArray = new ArrayList();;
-    /** Results default list model */
-    DefaultListModel purchasesModel = new DefaultListModel();
-    /** Results Jlist */
-    JList jListPurchases = new JList(purchasesModel);
     /** Table for jListResults */
     JTable tablePurchases;
     /** Results list box */
@@ -148,121 +91,28 @@ public class BudgetGUI extends JFrame implements ActionListener {
      */
     private void initializeGUI()
     {
-        // We encourage creating inner classes for the major components of the GUI
         c = this.getContentPane();
-        //WolfResultsManager instance = WolfResultsManager.getInstance();
 
         left = new JPanel();
         right = new JPanel();
         c.setLayout(new GridLayout(1, 2));
         c.add(left);
         c.add(right);
+        left.setLayout(new FlowLayout());
+        right.setLayout(new FlowLayout());
 
-        left.setLayout(new GridLayout(2, 1));
-        right.setLayout(new GridLayout(2, 1));
+        left.setBorder(blackline);
+        right.setBorder(blackline);
 
-        // add the top/bottom left panels
-        topLeft = new JPanel();
-        bottomLeft = new JPanel();
-        left.add(topLeft);
-        left.add(bottomLeft);
+        JPanel budgetPanel = new BudgetList();
+        JPanel purchasePanel = new PurchaseList();
+        left.add(budgetPanel);
+        right.add(purchasePanel);
 
-        // add the top/bottom right panels
-        topRight = new JPanel();
-        bottomRight = new JPanel();
-        right.add(topRight);
-        right.add(bottomRight);
+        //---------------------  Sets up the Bottom row of Budget statistics below the budget pane ----------------//
+        JPanel statsPanel = new StatsPanel();
 
-        // Create and add the Races jpanel
-        topLeft.setBorder(blackline);
-        topLeft.setLayout(new GridLayout(2, 1));
-        racesPanel = new JPanel();
-        racesPanel.setLayout(new GridLayout(1, 2));
-        topLeft.add(racesPanel);
-        budgetDetails = new JPanel();
-        topLeft.add(budgetDetails);
-
-        raceSelector = new JPanel();
-        racesPanel.add(raceSelector);
-        budgetList = new JPanel();
-        racesPanel.add(budgetList);
-
-        // Add buttons to Race selector panel
-        raceSelector.setLayout(new GridLayout(4, 1));
-        raceSelector.add(btnAddBudget);
-        raceSelector.add(btnRemoveBudget);
-        raceSelector.add(btnUnselectBudget);
-
-        /**
-        // Add the race list
-        fillRaceModel();
-        raceScrollList = new JScrollPane(jListRace, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        raceScrollList.setAlignmentX(JScrollPane.LEFT_ALIGNMENT);
-        raceList.add(raceScrollList);
-
-        // add the results box and add result button
-        topRight.setLayout(new GridLayout(2, 1));
-
-        //Setup results table model
-        resultsTableModel = new ResultsTableModel();
-        tableResults = new JTable(resultsTableModel);
-        tableResults.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tableResults.setPreferredScrollableViewportSize(new Dimension(500, 500));
-        tableResults.setFillsViewportHeight(true);
-
-        resultsScrollList = new JScrollPane(tableResults, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        topRight.add(resultsScrollList);
-        topRight.add(btnAddResult);
-
-        // Add the runner name, age, and time labels + text fields
-        bottomRight.setLayout(new GridLayout(3, 2));
-        bottomRight.add(lblResultName);
-        bottomRight.add(txtResultName);
-        bottomRight.add(lblResultAge);
-        bottomRight.add(txtResultAge);
-        bottomRight.add(lblResultTime);
-        bottomRight.add(txtResultTime);
-
-        //add action listeners
-        btnAddRace.addActionListener(this);
-        btnRemoveRace.addActionListener(this);
-        btnEditRace.addActionListener(this);
-        btnUnselectRace.addActionListener(this);
-        btnFilter.addActionListener(this);
-        btnAddResult.addActionListener(this);
-
-        //This has an anonymous inner class to handle selecting items in the race scroll list
-        //When selected, the results table will switch to the correct results list
-        //When selected, the race details will be displayed
-        jListRace.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent event) {
-                if (!event.getValueIsAdjusting() && jListRace.getSelectedIndex() > -1){
-                    resultsTableModel.updateData();
-                    resultsTableModel.fireTableDataChanged();
-                    txtRaceDetailsName.setText(instance.getRaceList().getRace(jListRace.getSelectedIndex()).getName());
-                    txtRaceDetailsDistance.setText(Double.toString(instance.getRaceList().getRace(jListRace.getSelectedIndex()).getDistance()));
-                    txtRaceDetailsDate.setText(instance.getRaceList().getRace(jListRace.getSelectedIndex()).getDate().toString());
-                    txtRaceDetailsLocation.setText(instance.getRaceList().getRace(jListRace.getSelectedIndex()).getLocation());
-                }
-            }
-        });
-
-        selectionModel = tableResults.getSelectionModel();
-
-        //When a result is selected from the scroll list, the details are displayed in the text boxes below
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent event) {
-                if(!event.getValueIsAdjusting() && tableResults.getSelectedRow() > -1 && tableResults.getSelectedRow() < instance.getRaceList().getRace(jListRace.getSelectedIndex()).getResults().size())
-                {
-                    txtResultName.setText(instance.getRaceList().getRace(jListRace.getSelectedIndex()).getResults().getResult(tableResults.getSelectedRow()).getName());
-                    txtResultAge.setText(Integer.toString(instance.getRaceList().getRace(jListRace.getSelectedIndex()).getResults().getResult(tableResults.getSelectedRow()).getAge()));
-                    txtResultTime.setText(instance.getRaceList().getRace(jListRace.getSelectedIndex()).getResults().getResult(tableResults.getSelectedRow()).getTime().toString());
-                }
-            }
-        });
-         */
+        left.add(statsPanel);
     }
 
     /**
@@ -271,6 +121,19 @@ public class BudgetGUI extends JFrame implements ActionListener {
      */
     private void setUpMenuBar()
     {
+        /** Menu bar for the GUI that contains Menus. */
+        JMenuBar menuBar;
+        /** Menu for the GUI. */
+        JMenu menu;
+        /** Menu item for creating a new list of Races. */
+        JMenuItem itemNewFile;
+        /** Menu item for loading a file. */
+        JMenuItem itemLoadFile;
+        /** Menu item for saving the list to a file. */
+        JMenuItem itemSaveFile;
+        /** Menu item for quitting the program. */
+        JMenuItem itemQuit;
+
         // Construct Menu items
         menuBar = new JMenuBar();
         menu = new JMenu(FILE_MENU_TITLE);
@@ -308,5 +171,74 @@ public class BudgetGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
+    }
+
+    public class BudgetList extends JPanel {
+        JList budgetList;
+        JScrollPane budgetScrollPane;
+        DefaultListModel<Transaction> list;
+
+        public BudgetList() {
+            list = new DefaultListModel<>();
+            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 1", 5000, "Category 1", false));
+            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 2", 5000, "Category 1", false));
+            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 3", 5000, "Category 1", false));
+
+            budgetList = new JList(list);
+            budgetScrollPane = new JScrollPane(budgetList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            budgetScrollPane.setPreferredSize(new Dimension(700, 400));
+            add(budgetScrollPane);
+        }
+    }
+
+    public class PurchaseList extends JPanel {
+        JList purchaseList;
+        JScrollPane purchaseScrollPane;
+        DefaultListModel<Transaction> list;
+
+        public PurchaseList() {
+            list = new DefaultListModel<>();
+            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 1", 5000, "Category 1", false));
+            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 2", 5000, "Category 1", false));
+            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 3", 5000, "Category 1", false));
+
+            purchaseList = new JList(list);
+            purchaseScrollPane = new JScrollPane(purchaseList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                    JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            purchaseScrollPane.setPreferredSize(new Dimension(700, 400));
+            add(purchaseScrollPane);
+        }
+    }
+
+    public class StatsPanel extends JPanel {
+        public StatsPanel() {
+            setLayout(new GridLayout(1,3));
+            JPanel overallBudget = new JPanel();
+            JPanel overallSpent = new JPanel();
+            JPanel overallRemaining = new JPanel();
+            overallBudget.setLayout(new GridLayout(1, 2));
+            overallSpent.setLayout(new GridLayout(1, 2));
+            overallRemaining.setLayout(new GridLayout(1, 2));
+
+            JLabel budgetLabel = new JLabel("Budget:");
+            JLabel budgetAmt = new JLabel("$3000");
+            overallBudget.add(budgetLabel);
+            overallBudget.add(budgetAmt);
+
+            JLabel spentLabel = new JLabel("Spent:");
+            JLabel spentAmt = new JLabel("$1000");
+            overallSpent.add(spentLabel);
+            overallSpent.add(spentAmt);
+
+            JLabel remainingLabel = new JLabel("Remaining: ");
+            JLabel remainingAmt = new JLabel("$2000");
+            overallRemaining.add(remainingLabel);
+            overallRemaining.add(remainingAmt);
+
+            add(overallBudget);
+            add(overallSpent);
+            add(overallRemaining);
+        }
     }
 }
