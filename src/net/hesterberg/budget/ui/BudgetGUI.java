@@ -112,6 +112,7 @@ public class BudgetGUI extends JFrame implements ActionListener {
         //---------------------  Sets up the Bottom row of Budget statistics below the budget pane ----------------//
         JPanel statsPanel = new StatsPanel();
 
+        left.add(new ButtonPanel());
         left.add(statsPanel);
     }
 
@@ -208,6 +209,30 @@ public class BudgetGUI extends JFrame implements ActionListener {
                     JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             purchaseScrollPane.setPreferredSize(new Dimension(700, 400));
             add(purchaseScrollPane);
+        }
+    }
+
+    public class ButtonPanel extends JPanel {
+        public ButtonPanel() {
+            setLayout(new GridLayout(1, 3));
+            JButton deleteBudgetBtn = new JButton("Delete Category");
+            JButton updateBudgetBtn = new JButton("Update Budget");
+            JButton addBudgetBtn = new JButton("Add Category");
+
+            deleteBudgetBtn.setActionCommand("DeleteBudget");
+            updateBudgetBtn.setActionCommand("UpdateBudget");
+            addBudgetBtn.setActionCommand("AddBudget");
+
+            deleteBudgetBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    System.out.println("Clicked!");
+                }
+            });
+
+            add(deleteBudgetBtn);
+            add(updateBudgetBtn);
+            add(addBudgetBtn);
         }
     }
 
