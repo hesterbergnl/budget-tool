@@ -7,19 +7,9 @@ import net.hesterberg.budget.transaction.Transaction;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.time.LocalDate;
-import java.util.*;
-import java.util.concurrent.Flow;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.AbstractTableModel;
 
 /**
  * GUI Class that uses Swing UI library to build a basic user interface
@@ -70,11 +60,20 @@ public class BudgetGUI extends JFrame implements ActionListener {
     /** Data stored in the table */
     private Object [][] data;
 
+    //-----------The lists that store data in the JScrollList and associated Model-----------//
+    //TODO: Update the comments on these to make them more accurate
+    JList budgetList;
+    JScrollPane budgetScrollPane;
+    DefaultListModel<Transaction> budgetListModel;
+    JList purchaseList;
+    JScrollPane purchaseScrollPane;
+    DefaultListModel<Transaction> purchaseListModel;
+
     public BudgetGUI() {
         super();
 
         // Set up general GUI info
-        setSize(1500, 500);
+        setSize(1500, 600);
         setLocation(50, 50);
         setTitle(APP_TITLE);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -104,16 +103,22 @@ public class BudgetGUI extends JFrame implements ActionListener {
         left.setBorder(blackline);
         right.setBorder(blackline);
 
+        //--------------------- Adds the main budget and purchase panels that contain the JScrollPanes----------------//
         JPanel budgetPanel = new BudgetList();
         JPanel purchasePanel = new PurchaseList();
         left.add(budgetPanel);
         right.add(purchasePanel);
 
-        //---------------------  Sets up the Bottom row of Budget statistics below the budget pane ----------------//
+        //--------------------- Adds the bottom left button and stats panel -------------------//
         JPanel statsPanel = new StatsPanel();
-
-        left.add(new ButtonPanel());
+        JPanel budgetButtonPanel = new BudgetButtonPanel();
+        left.add(budgetButtonPanel);
         left.add(statsPanel);
+
+        //--------------------- Adds the bottom right button panel ------------------------------//
+        JPanel purchaseButtonPanel = new PurchaseButtonPanel();
+        right.add(purchaseButtonPanel);
+
     }
 
     /**
@@ -175,17 +180,15 @@ public class BudgetGUI extends JFrame implements ActionListener {
     }
 
     public class BudgetList extends JPanel {
-        JList budgetList;
-        JScrollPane budgetScrollPane;
-        DefaultListModel<Transaction> list;
+
 
         public BudgetList() {
-            list = new DefaultListModel<>();
-            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 1", 5000, "Category 1", false));
-            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 2", 5000, "Category 1", false));
-            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 3", 5000, "Category 1", false));
+            budgetListModel = new DefaultListModel<>();
+            budgetListModel.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 1", 5000, "Category 1", false));
+            budgetListModel.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 2", 5000, "Category 1", false));
+            budgetListModel.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 3", 5000, "Category 1", false));
 
-            budgetList = new JList(list);
+            budgetList = new JList(budgetListModel);
             budgetScrollPane = new JScrollPane(budgetList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                     JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             budgetScrollPane.setPreferredSize(new Dimension(700, 400));
@@ -194,17 +197,15 @@ public class BudgetGUI extends JFrame implements ActionListener {
     }
 
     public class PurchaseList extends JPanel {
-        JList purchaseList;
-        JScrollPane purchaseScrollPane;
-        DefaultListModel<Transaction> list;
+
 
         public PurchaseList() {
-            list = new DefaultListModel<>();
-            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 1", 5000, "Category 1", false));
-            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 2", 5000, "Category 1", false));
-            list.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 3", 5000, "Category 1", false));
+            purchaseListModel = new DefaultListModel<>();
+            purchaseListModel.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 1", 5000, "Category 1", false));
+            purchaseListModel.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 2", 5000, "Category 1", false));
+            purchaseListModel.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 3", 5000, "Category 1", false));
 
-            purchaseList = new JList(list);
+            purchaseList = new JList(purchaseListModel);
             purchaseScrollPane = new JScrollPane(purchaseList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                     JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             purchaseScrollPane.setPreferredSize(new Dimension(700, 400));
@@ -212,8 +213,12 @@ public class BudgetGUI extends JFrame implements ActionListener {
         }
     }
 
-    public class ButtonPanel extends JPanel {
-        public ButtonPanel() {
+    public class BudgetButtonPanel extends JPanel {
+        public BudgetButtonPanel () {
+            setupPanel();
+        }
+
+        private void setupPanel() {
             setLayout(new GridLayout(1, 3));
             JButton deleteBudgetBtn = new JButton("Delete Category");
             JButton updateBudgetBtn = new JButton("Update Budget");
@@ -226,7 +231,13 @@ public class BudgetGUI extends JFrame implements ActionListener {
             deleteBudgetBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.println("Clicked!");
+                    JOptionPaneBudgetInputPanel budgetInput = new JOptionPaneBudgetInputPanel();
+                    int result = JOptionPane.showConfirmDialog(null, budgetInput, "Please enter " +
+                            "purchase details", JOptionPane.OK_CANCEL_OPTION);
+                    if (result == JOptionPane.OK_OPTION) {
+                        System.out.println("Description: " + budgetInput.getDescription());
+                        System.out.println("Category: " + budgetInput.category.getText());
+                    }
                 }
             });
 
@@ -238,6 +249,10 @@ public class BudgetGUI extends JFrame implements ActionListener {
 
     public class StatsPanel extends JPanel {
         public StatsPanel() {
+            setupPanel();
+        }
+
+        private void setupPanel() {
             setLayout(new GridLayout(1,3));
             JPanel overallBudget = new JPanel();
             JPanel overallSpent = new JPanel();
@@ -264,6 +279,136 @@ public class BudgetGUI extends JFrame implements ActionListener {
             add(overallBudget);
             add(overallSpent);
             add(overallRemaining);
+        }
+    }
+
+    public class JOptionPaneBudgetInputPanel extends JPanel {
+        private JTextField dateDay;
+        private JTextField dateMonth;
+        private JTextField dateYear;
+        private JTextField description;
+        private JTextField cost;
+        private JTextField category;
+
+        public JOptionPaneBudgetInputPanel() {
+            setupPanel();
+        }
+
+        private void setupPanel() {
+            //TODO: Initialize these values with current date, etc
+            //TODO: Make a new constructor that takes parameters when editing a purchase
+            dateDay = new JTextField();
+            dateMonth = new JTextField();
+            dateYear = new JTextField();
+            description = new JTextField();
+            cost = new JTextField();
+            category = new JTextField();
+
+            JPanel budgetInputPanel = new JPanel();
+            budgetInputPanel.setLayout(new GridLayout(4, 2));
+
+            //Builds a date panel to hold the date components
+            JPanel datePanel = new JPanel();
+            datePanel.setLayout(new GridLayout(1, 3));
+            datePanel.add(dateDay);
+            datePanel.add(dateMonth);
+            datePanel.add(dateYear);
+
+            //Adds all the inputs to the budget input panel
+            budgetInputPanel.add(new Label("Date (DD/MM/YYYY)"));
+            budgetInputPanel.add(datePanel);
+            budgetInputPanel.add(new Label("Description"));
+            budgetInputPanel.add(description);
+            budgetInputPanel.add(new Label("Cost ($)"));
+            budgetInputPanel.add(cost);
+            budgetInputPanel.add(new Label("Category"));
+            budgetInputPanel.add(category);
+            add(budgetInputPanel);
+        }
+
+        public JTextField getDateDay() {
+            return dateDay;
+        }
+
+        public JTextField getDateMonth() {
+            return dateMonth;
+        }
+
+        public JTextField getDateYear() {
+            return dateYear;
+        }
+
+        public JTextField getDescription() {
+            return description;
+        }
+
+        public JTextField getCost() {
+            return cost;
+        }
+
+        public JTextField getCategory() {
+            return category;
+        }
+    }
+
+    public class PurchaseButtonPanel extends JPanel {
+        public PurchaseButtonPanel () {
+            setupPanel();
+        }
+
+        private void setupPanel() {
+            setLayout(new GridLayout(1, 3));
+            JButton deletePurchaseBtn = new JButton("Delete Purchase");
+            JButton updatePurchaseBtn = new JButton("Update Purchase");
+            JButton addPurchaseBtn = new JButton("Add Purchase");
+
+            deletePurchaseBtn.setActionCommand("DeleteBudget");
+            updatePurchaseBtn.setActionCommand("UpdateBudget");
+            addPurchaseBtn.setActionCommand("AddBudget");
+
+            //-------------------------Add action listeners for each button press ------------------------------------//
+            deletePurchaseBtn.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    System.out.println("Deletes the purchase");
+                }
+            });
+
+            updatePurchaseBtn.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    //TODO: Build the JOptionPanel so that it contains the existing purchase that is edited
+                    //TODO: Delete the modified purchase from the list
+                    JOptionPaneBudgetInputPanel budgetInput = new JOptionPaneBudgetInputPanel();
+                    int result = JOptionPane.showConfirmDialog(null, budgetInput, "Please enter " +
+                            "purchase details", JOptionPane.OK_CANCEL_OPTION);
+                    if (result == JOptionPane.OK_OPTION) {
+                        System.out.println("Description: " + budgetInput.getDescription());
+                        System.out.println("Category: " + budgetInput.category.getText());
+                    }
+                }
+            });
+
+            addPurchaseBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    JOptionPaneBudgetInputPanel budgetInput = new JOptionPaneBudgetInputPanel();
+                    int result = JOptionPane.showConfirmDialog(null, budgetInput, "Please enter " +
+                            "purchase details", JOptionPane.OK_CANCEL_OPTION);
+                    if (result == JOptionPane.OK_OPTION) {
+                        purchaseListModel.addElement(new Purchase(new Date(Integer.getInteger(
+                                budgetInput.getDateDay().getText()), Integer.getInteger(budgetInput.getDateMonth().getText()),
+                                Integer.getInteger(budgetInput.getDateYear().getText())), budgetInput.getDescription().getText(),
+                                Integer.getInteger(budgetInput.getCost().getText()), budgetInput.getCategory().getText(), false));
+                    }
+                }
+            });
+
+            add(deletePurchaseBtn);
+            add(updatePurchaseBtn);
+            add(addPurchaseBtn);
         }
     }
 }
