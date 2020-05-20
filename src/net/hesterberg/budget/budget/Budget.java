@@ -179,4 +179,13 @@ public class Budget {
 
         return null;
     }
+
+    /**
+     * Removes a category from the budget
+     *
+     * @param category - category to be removed
+     */
+    public void removeCategory(String category) {
+        budget.remove(category);
+    }
 }

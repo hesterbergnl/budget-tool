@@ -6,6 +6,10 @@ import net.hesterberg.budget.transaction.Purchase;
 import net.hesterberg.budget.utility.CategoryException;
 import net.hesterberg.budget.utility.PurchaseFailureException;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Locale;
+
 /**
  * Budget manager stores the budget and makes it accessible to the GUI
  * Uses the singleton design pattern to ensure only one instance of itself can be created
@@ -17,6 +21,11 @@ public class BudgetManager {
      * The main budget class that models the overall system
      */
     private Budget budget;
+
+    /**
+     * Stores a list of the purchases that are displayed to the user
+     */
+    private ArrayList<Purchase> purchaseList;
 
     /**
      * Singleton instance of BudgetManager
@@ -68,6 +77,7 @@ public class BudgetManager {
                                     throws PurchaseFailureException {
         Date date;
         int intCost;
+        Purchase newPurchase;
 
         try {
             date = validateDate(day, month, year);
@@ -76,11 +86,15 @@ public class BudgetManager {
             throw new PurchaseFailureException(iae.getMessage());
         }
 
+        newPurchase = new Purchase(date, description, intCost, category, false);
+
         try {
-            this.budget.addPurchase(new Purchase(date, description, intCost, category, false));
+            this.budget.addPurchase(newPurchase);
         } catch (CategoryException ce) {
             throw new PurchaseFailureException(ce.getMessage());
         }
+
+        purchaseList.add(newPurchase);
     }
 
     /**
@@ -133,6 +147,42 @@ public class BudgetManager {
 
         date = new Date(intDay, intMonth, intYear);
         return date;
+    }
+
+    /**
+     * Clear budget - clears the budget and starts it from scratch
+     */
+    public void clearBudget() {
+        budget = new Budget(budget.getTotalBudget());
+    }
+
+    /**
+     * Delete purchase - removes the purchase provided from the budget
+     *
+     * @param index - index in the purchaseList of the purchase
+     */
+    public void deletePurchase(int index) {
+        Purchase removePurchase = purchaseList.get(index);
+
+        budget.removeTransaction(removePurchase);
+
+        purchaseList.remove(index);
+    }
+
+    /**
+     * Returns the list of purchases to be shown on the GUI - depends on the filter and sorting view
+     */
+    public ArrayList<Purchase> getPurchaseList() {
+        return this.purchaseList;
+    }
+
+    /**
+     * Removes the category from the budget
+     *
+     * @param category - category to remove from the budget
+     */
+    public void removeCategory(String category) {
+        budget.removeCategory(category);
     }
 
     //TODO: Make a class to load and save text files for offline use

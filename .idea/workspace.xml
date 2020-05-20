@@ -20,9 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="04a2cf4f-701b-459b-bbf8-e8e554d1400a" name="Default Changelist" comment="Started implementation of the GUI without using the GUIBuilder">
-      <change afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/utility/BudgetFileIO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/utility/PurchaseFailureException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/budget/Budget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/budget/Budget.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/manager/BudgetManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/manager/BudgetManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -228,7 +227,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589724291494</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Started implementation of the manager">
+      <created>1589831060541</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1589831060541</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -253,7 +259,8 @@
     <MESSAGE value="Setting up the overall GUI layout" />
     <MESSAGE value="Added initial button action listener" />
     <MESSAGE value="Created custom JOptionPanes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created custom JOptionPanes" />
+    <MESSAGE value="Started implementation of the manager" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started implementation of the manager" />
   </component>
   <component name="WindowStateProjectService">
     <state x="347" y="177" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589179101393">
@@ -320,12 +327,12 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="341" y="175" key="SettingsEditor/0.23.1680.1027@0.23.1680.1027" timestamp="1588107193788" />
-    <state x="768" y="329" width="806" height="525" key="Vcs.Push.Dialog.v2" timestamp="1589724304004">
+    <state x="768" y="329" width="806" height="525" key="Vcs.Push.Dialog.v2" timestamp="1589831078163">
       <screen x="0" y="0" width="1920" height="942" />
     </state>
     <state x="503" y="256" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1588709406806" />
     <state x="768" y="366" width="806" height="525" key="Vcs.Push.Dialog.v2/0.0.1920.1047@0.0.1920.1047" timestamp="1589377614389" />
-    <state x="768" y="329" width="806" height="525" key="Vcs.Push.Dialog.v2/0.0.1920.942@0.0.1920.942" timestamp="1589724304004" />
+    <state x="768" y="329" width="806" height="525" key="Vcs.Push.Dialog.v2/0.0.1920.942@0.0.1920.942" timestamp="1589831078163" />
     <state x="440" y="276" key="Vcs.Push.Dialog.v2/0.23.1680.1027@0.23.1680.1027" timestamp="1588274508519" />
     <state x="517" y="369" key="com.intellij.ide.util.TipDialog" timestamp="1588699203057">
       <screen x="0" y="23" width="1680" height="1027" />
@@ -346,5 +353,9 @@
       <screen x="0" y="0" width="1920" height="1047" />
     </state>
     <state x="655" y="316" width="605" height="414" key="git4idea.merge.GitPullDialog/0.0.1920.1047@0.0.1920.1047" timestamp="1589579261190" />
+    <state x="623" y="205" width="672" height="678" key="search.everywhere.popup" timestamp="1590002216653">
+      <screen x="0" y="0" width="1920" height="942" />
+    </state>
+    <state x="623" y="205" width="672" height="678" key="search.everywhere.popup/0.0.1920.942@0.0.1920.942" timestamp="1590002216653" />
   </component>
 </project>
