@@ -1,15 +1,19 @@
 package net.hesterberg.budget.ui;
 
 import net.hesterberg.budget.Date;
+import net.hesterberg.budget.manager.BudgetManager;
 import net.hesterberg.budget.transaction.Purchase;
 import net.hesterberg.budget.transaction.Transaction;
+import net.hesterberg.budget.utility.PurchaseFailureException;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * GUI Class that uses Swing UI library to build a basic user interface
@@ -59,6 +63,8 @@ public class BudgetGUI extends JFrame implements ActionListener {
     ListSelectionModel selectionModel;
     /** Data stored in the table */
     private Object [][] data;
+    /** The manager that modifies the underlying budget model */
+    BudgetManager manager;
 
     //-----------The lists that store data in the JScrollList and associated Model-----------//
     //TODO: Update the comments on these to make them more accurate
@@ -71,6 +77,9 @@ public class BudgetGUI extends JFrame implements ActionListener {
 
     public BudgetGUI() {
         super();
+
+        //Setup the budgetmanager
+        manager = BudgetManager.getBudgetManager();
 
         // Set up general GUI info
         setSize(1500, 600);
@@ -152,8 +161,45 @@ public class BudgetGUI extends JFrame implements ActionListener {
         itemSaveFile.addActionListener(this);
         itemQuit.addActionListener(this);
 
-        // Start with save button disabled
-        itemSaveFile.setEnabled(false);
+        /**
+         * Creates an action listener for the new option
+         * Creates an anonymous function to handle the action
+         */
+        itemNewFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                newFile();
+            }
+        });
+
+        /**
+         * Creates an action listener for the load option
+         * Creates an anonymous function to handle the action
+         */
+        itemLoadFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                loadFile();
+            }
+        });
+
+        /**
+         * Creates an action listener for the save option
+         * Creates an anonymous function to handle the action
+         */
+        itemSaveFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                saveFile();
+            }
+        });
+
+        itemQuit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                exit();
+            }
+        });
 
         // Build Menu and add to GUI
         menu.add(itemNewFile);
@@ -162,6 +208,98 @@ public class BudgetGUI extends JFrame implements ActionListener {
         menu.add(itemQuit);
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
+    }
+
+    private void newFile() {
+        if (manager.isChanged())
+        {
+            saveFile();
+        }
+        if (!manager.isChanged())
+        {
+
+        } else { // Did NOT save when prompted to save
+            JOptionPane.showMessageDialog(this,
+                    "Budget changes have not been saved. Your changes are lost.", "Saving Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+        manager.clearBudget(budgetListModel, purchaseListModel);
+    }
+    /**
+     * Method to save the budget to a file
+     */
+    private void saveFile() {
+        try {
+            JFileChooser chooser = new JFileChooser("./");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Budget files (txt)", "txt");
+            chooser.setFileFilter(filter);
+            chooser.setMultiSelectionEnabled(false);
+            int returnVal = chooser.showSaveDialog(BudgetGUI.super.rootPane);
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+            {
+                String filename = chooser.getSelectedFile().getAbsolutePath();
+                if (chooser.getSelectedFile().getName().trim().equals("")
+                        || !chooser.getSelectedFile().getName().endsWith(".txt"))
+                {
+                    throw new IllegalArgumentException();
+                }
+                manager.saveBudget(filename);
+            }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(BudgetGUI.super.rootPane, "File not saved.", "Saving Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Method to save the budget to a file
+     */
+    private void loadFile() {
+        try {
+            JFileChooser chooser = new JFileChooser("./");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Budget files (txt)", "txt");
+            chooser.setFileFilter(filter);
+            chooser.setMultiSelectionEnabled(false);
+            if (manager.getFilename() != null)
+            {
+                chooser.setSelectedFile(new File(manager.getFilename()));
+            }
+            int returnVal = chooser.showSaveDialog(BudgetGUI.super.rootPane);
+            if (returnVal == JFileChooser.APPROVE_OPTION)
+            {
+                String filename = chooser.getSelectedFile().getAbsolutePath();
+                if (chooser.getSelectedFile().getName().trim().equals("")
+                        || !chooser.getSelectedFile().getName().endsWith(".txt"))
+                {
+                    throw new IllegalArgumentException();
+                }
+                manager.setFilename(filename);
+                manager.loadBudget(filename, budgetListModel, purchaseListModel);
+            }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(BudgetGUI.super.rootPane, "File not loaded.", "Loading Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Method to save the budget to a file
+     */
+    private void exit() {
+        if (manager.isChanged())
+        {
+            saveFile();
+        }
+
+        if (!manager.isChanged())
+        {
+            System.exit(NORMAL);
+        } else
+        { // Did NOT save when prompted to save
+            JOptionPane.showMessageDialog(this,
+                    "Budget changes have not been saved. Your changes are lost.", "Saving Error",
+                    JOptionPane.ERROR_MESSAGE);
+            System.exit(NORMAL);
+        }
     }
 
     /**
@@ -180,13 +318,8 @@ public class BudgetGUI extends JFrame implements ActionListener {
     }
 
     public class BudgetList extends JPanel {
-
-
         public BudgetList() {
             budgetListModel = new DefaultListModel<>();
-            budgetListModel.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 1", 5000, "Category 1", false));
-            budgetListModel.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 2", 5000, "Category 1", false));
-            budgetListModel.addElement(new Purchase(new Date(15, 5, 2015), "Purchase 3", 5000, "Category 1", false));
 
             budgetList = new JList(budgetListModel);
             budgetScrollPane = new JScrollPane(budgetList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -197,7 +330,6 @@ public class BudgetGUI extends JFrame implements ActionListener {
     }
 
     public class PurchaseList extends JPanel {
-
 
         public PurchaseList() {
             purchaseListModel = new DefaultListModel<>();
@@ -231,12 +363,31 @@ public class BudgetGUI extends JFrame implements ActionListener {
             deleteBudgetBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    JOptionPaneBudgetInputPanel budgetInput = new JOptionPaneBudgetInputPanel();
-                    int result = JOptionPane.showConfirmDialog(null, budgetInput, "Please enter " +
-                            "purchase details", JOptionPane.OK_CANCEL_OPTION);
-                    if (result == JOptionPane.OK_OPTION) {
-                        System.out.println("Description: " + budgetInput.getDescription());
-                        System.out.println("Category: " + budgetInput.category.getText());
+                    if(budgetList.getSelectedIndex() == -1) {
+                        JOptionPane.showMessageDialog(BudgetGUI.super.rootPane, "No budget selected!");
+                    }
+                    else {
+                        manager.removeCategory(budgetList.getSelectedIndex(), budgetListModel, purchaseListModel);
+                    }
+                }
+            });
+            addBudgetBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    JOptionBudgetInputPanel budgetInput = new JOptionBudgetInputPanel();
+                    int result = JOptionPane.showConfirmDialog(BudgetGUI.super.rootPane, budgetInput,
+                            "Plese enter budget category details", JOptionPane.OK_CANCEL_OPTION);
+                    if(result == JOptionPane.OK_OPTION) {
+                        manager.addCategory(budgetInput.getCategory().getText(), budgetInput.getAmount().getText(),
+                                budgetListModel);
+                    }
+                }
+            });
+            updateBudgetBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    if(budgetList.getSelectedIndex() == -1) {
+                        JOptionPane.showMessageDialog(BudgetGUI.super.rootPane, "No budget selected!");
                     }
                 }
             });
@@ -282,7 +433,7 @@ public class BudgetGUI extends JFrame implements ActionListener {
         }
     }
 
-    public class JOptionPaneBudgetInputPanel extends JPanel {
+    public class JOptionPurchaseInputPanel extends JPanel {
         private JTextField dateDay;
         private JTextField dateMonth;
         private JTextField dateYear;
@@ -290,7 +441,7 @@ public class BudgetGUI extends JFrame implements ActionListener {
         private JTextField cost;
         private JTextField category;
 
-        public JOptionPaneBudgetInputPanel() {
+        public JOptionPurchaseInputPanel() {
             setupPanel();
         }
 
@@ -351,6 +502,40 @@ public class BudgetGUI extends JFrame implements ActionListener {
         }
     }
 
+    public class JOptionBudgetInputPanel extends JPanel {
+        private JTextField category;
+        private JTextField amount;
+
+        public JOptionBudgetInputPanel() {
+            setupPanel();
+        }
+
+        private void setupPanel() {
+            //TODO: Initialize these values with budget category, amt
+            //TODO: Make a new constructor that takes parameters when editing a budget category
+            category = new JTextField();
+            amount = new JTextField();
+
+            JPanel budgetInputPanel = new JPanel();
+            budgetInputPanel.setLayout(new GridLayout(2, 2));
+
+            //Adds all the inputs to the budget input panel
+            budgetInputPanel.add(new Label("Category Name"));
+            budgetInputPanel.add(category);
+            budgetInputPanel.add(new Label("Budget Amount"));
+            budgetInputPanel.add(amount);
+            add(budgetInputPanel);
+        }
+
+        public JTextField getCategory() {
+            return category;
+        }
+
+        public JTextField getAmount() {
+            return amount;
+        }
+    }
+
     public class PurchaseButtonPanel extends JPanel {
         public PurchaseButtonPanel () {
             setupPanel();
@@ -368,22 +553,25 @@ public class BudgetGUI extends JFrame implements ActionListener {
 
             //-------------------------Add action listeners for each button press ------------------------------------//
             deletePurchaseBtn.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.println("Deletes the purchase");
+                    if(purchaseList.getSelectedIndex() == -1) {
+                        JOptionPane.showMessageDialog(BudgetGUI.super.rootPane,"No purchase selected!");
+                    }
+                    else {
+                        purchaseListModel.remove(purchaseList.getSelectedIndex());
+                    }
                 }
             });
 
             updatePurchaseBtn.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     //TODO: Build the JOptionPanel so that it contains the existing purchase that is edited
                     //TODO: Delete the modified purchase from the list
-                    JOptionPaneBudgetInputPanel budgetInput = new JOptionPaneBudgetInputPanel();
-                    int result = JOptionPane.showConfirmDialog(null, budgetInput, "Please enter " +
-                            "purchase details", JOptionPane.OK_CANCEL_OPTION);
+                    JOptionPurchaseInputPanel budgetInput = new JOptionPurchaseInputPanel();
+                    int result = JOptionPane.showConfirmDialog(BudgetGUI.super.rootPane, budgetInput,
+                            "Please enter purchase details", JOptionPane.OK_CANCEL_OPTION);
                     if (result == JOptionPane.OK_OPTION) {
                         System.out.println("Description: " + budgetInput.getDescription());
                         System.out.println("Category: " + budgetInput.category.getText());
@@ -394,14 +582,18 @@ public class BudgetGUI extends JFrame implements ActionListener {
             addPurchaseBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    JOptionPaneBudgetInputPanel budgetInput = new JOptionPaneBudgetInputPanel();
-                    int result = JOptionPane.showConfirmDialog(null, budgetInput, "Please enter " +
-                            "purchase details", JOptionPane.OK_CANCEL_OPTION);
+                    JOptionPurchaseInputPanel budgetInput = new JOptionPurchaseInputPanel();
+                    int result = JOptionPane.showConfirmDialog(BudgetGUI.super.rootPane, budgetInput,
+                            "Please enter purchase details", JOptionPane.OK_CANCEL_OPTION);
                     if (result == JOptionPane.OK_OPTION) {
-                        purchaseListModel.addElement(new Purchase(new Date(Integer.getInteger(
-                                budgetInput.getDateDay().getText()), Integer.getInteger(budgetInput.getDateMonth().getText()),
-                                Integer.getInteger(budgetInput.getDateYear().getText())), budgetInput.getDescription().getText(),
-                                Integer.getInteger(budgetInput.getCost().getText()), budgetInput.getCategory().getText(), false));
+                        try {
+                            manager.addPurchase(budgetInput.getDateDay().getText(), budgetInput.getDateMonth().getText(),
+                                    budgetInput.getDateYear().getText(), budgetInput.getDescription().getText(),
+                                    budgetInput.getCost().getText(), budgetInput.getCategory().getText(),
+                                    purchaseListModel, budgetListModel);
+                        } catch (PurchaseFailureException pfe) {
+                            JOptionPane.showMessageDialog(BudgetGUI.super.rootPane, pfe.getMessage());
+                        }
                     }
                 }
             });

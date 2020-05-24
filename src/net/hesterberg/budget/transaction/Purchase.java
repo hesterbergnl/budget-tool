@@ -128,4 +128,22 @@ public class Purchase implements Transaction, Comparable<Purchase> {
             }
         }
     }
+
+    /**
+     * Overrides the toString method to provide a useful representation of the class as a string
+     */
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        //TODO: Format this to look nicer with consistent spacing
+        str.append(this.date.toString());
+        str.append(" | ");
+        str.append(this.description);
+        str.append(" | $");
+        str.append(String.format ("%.2f", ((double)this.price / 100)));
+        str.append(" | ");
+        str.append(this.category);
+
+        return str.toString();
+    }
 }

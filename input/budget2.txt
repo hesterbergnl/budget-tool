@@ -1,0 +1,11 @@
+500000
+Automotive,50000
+Food,60000
+Rent,120000
+Utilities,30000
+Pets,5000
+-
+5,5,2020,Gas,4000,Automotive
+5,6,2020,Groceries,5565,Food
+5,7,2020,Planet Smoothie,535,Food
+5,11,2020,Rent,120000,Rent

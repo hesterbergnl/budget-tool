@@ -1,9 +1,11 @@
 package net.hesterberg.budget.budget;
 
+import net.hesterberg.budget.transaction.Purchase;
 import net.hesterberg.budget.transaction.Transaction;
 import net.hesterberg.budget.utility.CategoryException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,7 +80,12 @@ public class Budget {
      * @param categoryBudget - the dollar amount (in cents) for the bucket
      */
     public void addBudgetBucket(String bucket, int categoryBudget) {
-        this.budget.put(bucket, categoryBudget);
+        if(this.budget.get(bucket) == null) {
+            this.budget.put(bucket, categoryBudget);
+        }
+        else {
+            throw new IllegalArgumentException("Budget already exists");
+        }
     }
 
     /**
@@ -109,6 +116,13 @@ public class Budget {
                 total += tx.getPrice();
             }
             categoryTotals.put(entry.getKey(), total);
+        }
+
+        //Loops through and sets the category spent to $0 for any category without purchases
+        for(Map.Entry<String, Integer> entry: budget.entrySet()) {
+            if(categoryTotals.get(entry.getKey()) == null) {
+                categoryTotals.put(entry.getKey(), 0);
+            }
         }
 
         return categoryTotals;
@@ -187,5 +201,27 @@ public class Budget {
      */
     public void removeCategory(String category) {
         budget.remove(category);
+
+        purchases.remove(category);
+    }
+
+    /**
+     * Returns the list of purchases
+     *
+     * @return list of purchases
+     */
+    public ArrayList<Purchase> getPurchaseList() {
+        ArrayList<Purchase> purchaseList = new ArrayList<>();
+
+        for(String key: purchases.keySet()) {
+            ArrayList<Transaction> pList = purchases.get(key);
+            for(int i = 0; i < pList.size(); i++) {
+                purchaseList.add((Purchase)(pList.get(i)));
+            }
+        }
+
+        Collections.sort(purchaseList);
+
+        return purchaseList;
     }
 }
