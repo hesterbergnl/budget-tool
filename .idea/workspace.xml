@@ -20,13 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="04a2cf4f-701b-459b-bbf8-e8e554d1400a" name="Default Changelist" comment="Started implementation of the GUI without using the GUIBuilder">
-      <change afterPath="$PROJECT_DIR$/input/budget2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/budget/Budget.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/budget/Budget.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/manager/BudgetManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/manager/BudgetManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/transaction/Purchase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/transaction/Purchase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/budget-tool.iml" beforeDir="false" afterPath="$PROJECT_DIR$/budget-tool.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/ui/BudgetGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/ui/BudgetGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/hesterberg/budget/utility/BudgetFileIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/hesterberg/budget/utility/BudgetFileIO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -370,12 +365,13 @@
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
     <state x="517" y="369" key="com.intellij.ide.util.TipDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1588699203057" />
-    <state x="622" y="422" width="567" height="206" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1589376852873">
-      <screen x="0" y="0" width="1920" height="1047" />
+    <state x="660" y="451" width="551" height="225" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1591365871409">
+      <screen x="56" y="27" width="1864" height="1053" />
     </state>
     <state x="622" y="419" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1920.1040@0.0.1920.1040" timestamp="1589178962232" />
     <state x="622" y="422" width="567" height="206" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1920.1047@0.0.1920.1047" timestamp="1589376852873" />
     <state x="544" y="437" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.23.1680.1027@0.23.1680.1027" timestamp="1588107957568" />
+    <state x="660" y="451" width="551" height="225" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/56.27.1864.1053@56.27.1864.1053" timestamp="1591365871409" />
     <state x="658" y="250" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1588839603858">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

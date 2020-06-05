@@ -17,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * GUI Class that uses Swing UI library to build a basic user interface
+ * Uses the event listener design pattern as observer was depricated from JAVA8
  *
  * @author Nikolai Hesterberg
  */
